@@ -38,17 +38,19 @@ export default function Contact() {
     if (!formData.fullName || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
-    
-    // Mock API call
+
+    // Fire email API in background — non-blocking
+    fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    }).catch(() => {});
+
+    // Always show the original success animation after 1800ms
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitSuccess(true);
-      setFormData({
-        fullName: "",
-        email: "",
-        projectType: "",
-        message: "",
-      });
+      setFormData({ fullName: "", email: "", projectType: "", message: "" });
       setTimeout(() => setSubmitSuccess(false), 5000);
     }, 1800);
   };
@@ -57,16 +59,37 @@ export default function Contact() {
     return focusedField === field || formData[field] !== "";
   };
 
-  return (
-    <section id="contact" className="relative py-24 bg-white overflow-hidden">
-      {/* Background Soft Glows */}
-      <div className="absolute top-1/3 left-[-10%] w-[450px] h-[450px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-10 right-[-10%] w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
+  const contactItems = [
+    {
+      icon: <Mail className="w-5 h-5" />,
+      label: "Email Inquiry",
+      content: "devixot@gmail.com",
+      href: "mailto:devixot@gmail.com",
+    },
+    {
+      icon: <Phone className="w-5 h-5" />,
+      label: "Direct Phone",
+      content: "+92 3424119598",
+      href: "tel:+923424119598",
+    },
+    {
+      icon: <MapPin className="w-5 h-5" />,
+      label: "HQ Coordinates",
+      content: "Faisalabad, Pakistan",
+      href: "https://maps.google.com/?q=Faisalabad,Pakistan",
+    },
+  ];
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        
+  return (
+    <section id="contact" className="relative py-16 sm:py-24 bg-white overflow-hidden">
+      {/* Background Soft Glows */}
+      <div className="absolute top-1/3 left-[-10%] w-[300px] sm:w-[450px] h-[300px] sm:h-[450px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-10 right-[-10%] w-[250px] sm:w-[400px] h-[250px] sm:h-[400px] bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 relative z-10">
+
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center mb-16">
+        <div className="flex flex-col items-center text-center mb-10 sm:mb-16">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -81,23 +104,24 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 mb-6 max-w-xl leading-tight"
+            className="text-2xl xs:text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 mb-4 sm:mb-6 max-w-xl leading-tight"
           >
             Start Your Project Journey
           </motion.h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-6xl mx-auto">
-          {/* Info Coordinates Column (Left) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 max-w-6xl mx-auto">
+
+          {/* Info Column (Left) */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="lg:col-span-5 flex flex-col justify-between gap-8"
+            className="lg:col-span-5 flex flex-col justify-between gap-6 sm:gap-8"
           >
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-slate-900 tracking-wide">
+            <div className="space-y-3 sm:space-y-4">
+              <h3 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-wide">
                 Connect With Our Specialists
               </h3>
               <p className="text-sm sm:text-base text-slate-500 font-light leading-relaxed">
@@ -106,45 +130,26 @@ export default function Contact() {
             </div>
 
             {/* Contacts Grid */}
-            <div className="space-y-6">
-              {/* Email */}
-              <div className="group flex items-center gap-4 p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:border-primary/20 hover:bg-white hover:shadow-md transition-all duration-300">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-[10px] uppercase font-mono tracking-widest text-slate-400">Email Inquiry</div>
-                  <a href="mailto:solutions@devixo.com" className="text-sm font-bold text-slate-800 hover:text-primary transition-colors">
-                    solutions@devixo.com
-                  </a>
-                </div>
-              </div>
-
-              {/* Phone */}
-              <div className="group flex items-center gap-4 p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:border-primary/20 hover:bg-white hover:shadow-md transition-all duration-300">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-[10px] uppercase font-mono tracking-widest text-slate-400">Direct Phone</div>
-                  <a href="tel:+18005556090" className="text-sm font-bold text-slate-800 hover:text-primary transition-colors">
-                    +1 (800) 555-6090
-                  </a>
-                </div>
-              </div>
-
-              {/* Address */}
-              <div className="group flex items-center gap-4 p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:border-primary/20 hover:bg-white hover:shadow-md transition-all duration-300">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-[10px] uppercase font-mono tracking-widest text-slate-400">HQ Coordinates</div>
-                  <span className="text-xs sm:text-sm font-bold text-slate-800 leading-relaxed">
-                    100 Pine Street, San Francisco, CA
-                  </span>
-                </div>
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-3 sm:gap-4">
+              {contactItems.map(({ icon, label, content, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target={label === "HQ Coordinates" ? "_blank" : undefined}
+                  rel={label === "HQ Coordinates" ? "noopener noreferrer" : undefined}
+                  className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:border-primary/20 hover:bg-white hover:shadow-md transition-all duration-300"
+                >
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-105 transition-transform">
+                    {icon}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-[10px] uppercase font-mono tracking-widest text-slate-400">{label}</div>
+                    <span className="text-xs sm:text-sm font-bold text-slate-800 group-hover:text-primary transition-colors break-words leading-snug">
+                      {content}
+                    </span>
+                  </div>
+                </a>
+              ))}
             </div>
 
             <div className="hidden lg:flex items-center gap-3 text-xs text-slate-400 font-mono tracking-wider select-none">
@@ -161,9 +166,9 @@ export default function Contact() {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="lg:col-span-7"
           >
-            <div className="relative p-8 md:p-10 rounded-3xl border border-slate-200 bg-white shadow-lg shadow-primary/5 overflow-hidden">
-              
-              {/* Success Overlay popup */}
+            <div className="relative p-6 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl border border-slate-200 bg-white shadow-lg shadow-primary/5 overflow-hidden">
+
+              {/* Success Overlay — original style */}
               <AnimatePresence>
                 {submitSuccess && (
                   <motion.div
@@ -190,57 +195,61 @@ export default function Contact() {
 
               {/* Contact Form */}
               <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-                {/* Full Name */}
-                <div className="relative">
-                  <input
-                    type="text"
-                    name="fullName"
-                    required
-                    value={formData.fullName}
-                    onFocus={() => handleFocus("fullName")}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    className="w-full px-5 py-4 text-sm text-slate-900 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary/45 focus:ring-1 focus:ring-primary/45 transition-all duration-300 font-sans"
-                    id="fullNameInput"
-                  />
-                  <label
-                    htmlFor="fullNameInput"
-                    className={`absolute left-5 pointer-events-none transition-all duration-300 ${
-                      isLabelFloating("fullName")
-                        ? "top-0 -translate-y-1/2 text-[10px] font-bold text-primary px-2 bg-white tracking-widest uppercase"
-                        : "top-1/2 -translate-y-1/2 text-sm text-slate-400"
-                    }`}
-                  >
-                    Full Name
-                  </label>
+
+                {/* Full Name + Email — side by side on sm+ */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  {/* Full Name */}
+                  <div className="relative">
+                    <input
+                      type="text"
+                      name="fullName"
+                      required
+                      value={formData.fullName}
+                      onFocus={() => handleFocus("fullName")}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      className="w-full px-4 sm:px-5 py-4 text-sm text-slate-900 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary/45 focus:ring-1 focus:ring-primary/45 transition-all duration-300 font-sans"
+                      id="fullNameInput"
+                    />
+                    <label
+                      htmlFor="fullNameInput"
+                      className={`absolute left-4 sm:left-5 pointer-events-none transition-all duration-300 ${
+                        isLabelFloating("fullName")
+                          ? "top-0 -translate-y-1/2 text-[10px] font-bold text-primary px-2 bg-white tracking-widest uppercase"
+                          : "top-1/2 -translate-y-1/2 text-sm text-slate-400"
+                      }`}
+                    >
+                      Full Name
+                    </label>
+                  </div>
+
+                  {/* Email Address */}
+                  <div className="relative">
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onFocus={() => handleFocus("email")}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      className="w-full px-4 sm:px-5 py-4 text-sm text-slate-900 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary/45 focus:ring-1 focus:ring-primary/45 transition-all duration-300 font-sans"
+                      id="emailInput"
+                    />
+                    <label
+                      htmlFor="emailInput"
+                      className={`absolute left-4 sm:left-5 pointer-events-none transition-all duration-300 ${
+                        isLabelFloating("email")
+                          ? "top-0 -translate-y-1/2 text-[10px] font-bold text-primary px-2 bg-white tracking-widest uppercase"
+                          : "top-1/2 -translate-y-1/2 text-sm text-slate-400"
+                      }`}
+                    >
+                      Email Address
+                    </label>
+                  </div>
                 </div>
 
-                {/* Email Address */}
-                <div className="relative">
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onFocus={() => handleFocus("email")}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    className="w-full px-5 py-4 text-sm text-slate-900 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary/45 focus:ring-1 focus:ring-primary/45 transition-all duration-300 font-sans"
-                    id="emailInput"
-                  />
-                  <label
-                    htmlFor="emailInput"
-                    className={`absolute left-5 pointer-events-none transition-all duration-300 ${
-                      isLabelFloating("email")
-                        ? "top-0 -translate-y-1/2 text-[10px] font-bold text-primary px-2 bg-white tracking-widest uppercase"
-                        : "top-1/2 -translate-y-1/2 text-sm text-slate-400"
-                    }`}
-                  >
-                    Email Address
-                  </label>
-                </div>
-
-                {/* Project Selection dropdown */}
+                {/* Project Selection */}
                 <div className="relative">
                   <select
                     name="projectType"
@@ -248,18 +257,21 @@ export default function Contact() {
                     onFocus={() => handleFocus("projectType")}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    className="w-full px-5 py-4 text-sm text-slate-900 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary/45 focus:ring-1 focus:ring-primary/45 transition-all duration-300 font-sans appearance-none cursor-pointer"
+                    className="w-full px-4 sm:px-5 py-4 text-sm text-slate-900 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary/45 focus:ring-1 focus:ring-primary/45 transition-all duration-300 font-sans appearance-none cursor-pointer"
                     id="projectTypeSelect"
                   >
                     <option value="" disabled className="bg-white">Select Project Scope</option>
-                    <option value="custom-software" className="bg-white">Custom Software Dev</option>
-                    <option value="ai-integration" className="bg-white">AI & LLM Integrations</option>
-                    <option value="cloud-devops" className="bg-white">Cloud Architecture</option>
-                    <option value="ux-design" className="bg-white">Product UI/UX Design</option>
+                    <option value="Custom Software Dev" className="bg-white">Custom Software Dev</option>
+                    <option value="AI & LLM Integrations" className="bg-white">AI &amp; LLM Integrations</option>
+                    <option value="Cloud Architecture" className="bg-white">Cloud Architecture</option>
+                    <option value="Product UI/UX Design" className="bg-white">Product UI/UX Design</option>
+                    <option value="Mobile App Development" className="bg-white">Mobile App Development</option>
+                    <option value="E-commerce Solution" className="bg-white">E-commerce Solution</option>
+                    <option value="Other" className="bg-white">Other</option>
                   </select>
                   <label
                     htmlFor="projectTypeSelect"
-                    className={`absolute left-5 pointer-events-none transition-all duration-300 ${
+                    className={`absolute left-4 sm:left-5 pointer-events-none transition-all duration-300 ${
                       isLabelFloating("projectType")
                         ? "top-0 -translate-y-1/2 text-[10px] font-bold text-primary px-2 bg-white tracking-widest uppercase"
                         : "top-1/2 -translate-y-1/2 text-sm text-slate-400"
@@ -267,12 +279,12 @@ export default function Contact() {
                   >
                     Project Type
                   </label>
-                  <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs font-mono">
+                  <div className="absolute right-4 sm:right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs font-mono">
                     ▼
                   </div>
                 </div>
 
-                {/* Project Message textarea */}
+                {/* Message */}
                 <div className="relative">
                   <textarea
                     name="message"
@@ -282,12 +294,12 @@ export default function Contact() {
                     onFocus={() => handleFocus("message")}
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    className="w-full px-5 py-4 text-sm text-slate-900 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary/45 focus:ring-1 focus:ring-primary/45 transition-all duration-300 font-sans resize-none"
+                    className="w-full px-4 sm:px-5 py-4 text-sm text-slate-900 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary/45 focus:ring-1 focus:ring-primary/45 transition-all duration-300 font-sans resize-none"
                     id="messageInput"
                   />
                   <label
                     htmlFor="messageInput"
-                    className={`absolute left-5 pointer-events-none transition-all duration-300 ${
+                    className={`absolute left-4 sm:left-5 pointer-events-none transition-all duration-300 ${
                       isLabelFloating("message")
                         ? "top-0 -translate-y-1/2 text-[10px] font-bold text-primary px-2 bg-white tracking-widest uppercase"
                         : "top-[20px] -translate-y-1/2 text-sm text-slate-400"
@@ -297,7 +309,7 @@ export default function Contact() {
                   </label>
                 </div>
 
-                {/* Submit button */}
+                {/* Submit button — original "Allocating Node" animation */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
