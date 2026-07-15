@@ -22,6 +22,7 @@ export default function Contact() {
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const handleFocus = (fieldName: string) => setFocusedField(fieldName);
   const handleBlur = () => setFocusedField(null);
@@ -33,26 +34,47 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.fullName || !formData.email || !formData.message) return;
+    if (isSubmitting) return; // Prevent duplicate submissions
 
     setIsSubmitting(true);
+    setErrorMsg(null);
 
-    // Fire email API in background — non-blocking
-    fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    }).catch(() => {});
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.fullName,
+          email: formData.email,
+          subject: formData.projectType,
+          message: formData.message
+        }),
+      });
 
-    // Always show the original success animation after 1800ms
-    setTimeout(() => {
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitSuccess(true);
+        setFormData({ fullName: "", email: "", projectType: "", message: "" });
+
+        // Keep success message visible for 5 seconds
+        setTimeout(() => {
+          setSubmitSuccess(false);
+        }, 5000);
+      } else {
+        setErrorMsg(data.error || "Failed to send message.");
+      }
+    } catch (error) {
+      console.error("Fetch failed:", error);
+      setErrorMsg("A network error occurred. Please try again.");
+    } finally {
       setIsSubmitting(false);
-      setSubmitSuccess(true);
-      setFormData({ fullName: "", email: "", projectType: "", message: "" });
-      setTimeout(() => setSubmitSuccess(false), 5000);
-    }, 1800);
+    }
   };
 
   const isLabelFloating = (field: keyof FormState) => {
@@ -308,6 +330,17 @@ export default function Contact() {
                     Brief Message
                   </label>
                 </div>
+
+                {/* Error Message */}
+                {errorMsg && (
+                  <motion.p 
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-rose-500 text-sm text-center font-medium bg-rose-50 py-3 px-4 rounded-xl border border-rose-100"
+                  >
+                    {errorMsg}
+                  </motion.p>
+                )}
 
                 {/* Submit button — original "Allocating Node" animation */}
                 <button
