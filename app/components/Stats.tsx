@@ -34,20 +34,11 @@ const statsData = [
   {
     icon: Briefcase,
     from: 0,
-    to: 180,
+    to: 5,
     suffix: "+",
     label: "Projects Delivered",
     color: "from-blue-100/40 to-blue-200/40",
     textColor: "text-blue-600",
-  },
-  {
-    icon: Users,
-    from: 0,
-    to: 45,
-    suffix: "+",
-    label: "Tech Specialists",
-    color: "from-sky-100/40 to-sky-200/40",
-    textColor: "text-sky-600",
   },
   {
     icon: Smile,
@@ -58,15 +49,6 @@ const statsData = [
     color: "from-emerald-100/40 to-emerald-200/40",
     textColor: "text-emerald-600",
   },
-  {
-    icon: Award,
-    from: 0,
-    to: 10,
-    suffix: "+",
-    label: "Years Experience",
-    color: "from-amber-100/40 to-amber-200/40",
-    textColor: "text-amber-600",
-  },
 ];
 
 export default function Stats() {
@@ -76,7 +58,7 @@ export default function Stats() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[150px] bg-primary/5 rounded-full blur-[80px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-6 md:gap-8 max-w-3xl mx-auto w-full">
           {statsData.map((stat, index) => {
             const Icon = stat.icon;
             return (
@@ -86,7 +68,7 @@ export default function Stats() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
-                className="group flex flex-col items-center justify-center p-6 md:p-8 rounded-2xl bg-white border border-dark-border hover:border-dark-border-hover transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/5"
+                className="group flex flex-col items-center justify-center p-6 md:p-8 rounded-2xl bg-white border border-dark-border hover:border-dark-border-hover transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/5 w-full sm:w-1/2"
               >
                 {/* Metric Icon */}
                 <div

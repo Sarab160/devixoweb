@@ -15,7 +15,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Devixo Solutions | POS Systems, Web & Mobile Apps, AI & Cloud",
+  title: "Devixo Solutions ",
   description: "Devixo Solutions builds custom POS systems, websites, mobile apps, AI agents, data analytics, and cloud solutions for businesses of all sizes.",
   keywords: ["POS system", "restaurant POS", "custom software", "web development", "mobile app", "AI agents", "data analytics", "cloud solutions", "Devixo Solutions"],
   authors: [{ name: "Devixo Solutions" }],

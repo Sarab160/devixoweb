@@ -114,6 +114,86 @@ export default function Projects() {
 
           {/* Card 2: Placeholder Slot for Future Projects */}
           <motion.div
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.6 }}
+  className="group relative rounded-2xl border border-slate-200 bg-white hover:border-primary/25 overflow-hidden flex flex-col hover:shadow-xl hover:shadow-primary/5 transition-all duration-300"
+>
+  {/* Visual WhatsApp AI Mockup */}
+  <div className="h-[180px] relative border-b border-slate-100 bg-slate-50 overflow-hidden">
+    <div className="absolute inset-0 p-4 font-mono text-[8px] flex flex-col gap-1.5 select-none">
+
+      <div className="flex justify-between border-b border-slate-200 pb-1.5 font-bold text-slate-500">
+        <span>💬 WhatsApp AI</span>
+        <span className="text-emerald-500">● Online</span>
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <div className="self-start max-w-[75%] bg-white border border-slate-100 rounded-lg p-1 shadow-sm text-slate-600">
+          Hi 👋 I need a website for my business.
+        </div>
+
+        <div className="self-end max-w-[75%] bg-primary/10 border border-primary/20 rounded-lg p-1 shadow-sm text-primary font-semibold">
+          Sure! We build websites, mobile apps & AI solutions.
+        </div>
+
+        <div className="self-end max-w-[75%] bg-primary/10 border border-primary/20 rounded-lg p-1 shadow-sm text-primary font-semibold">
+          Can I know your business type?
+        </div>
+      </div>
+
+      <div className="mt-auto border-t border-slate-200 pt-1.5 flex justify-between font-bold text-slate-800">
+        <span>Response Time</span>
+        <span className="text-primary">&lt; 2 sec</span>
+      </div>
+    </div>
+
+    <div className="absolute top-3 right-3 z-10">
+      <span className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+        <CheckCircle2 className="w-2.5 h-2.5" />
+        Live AI
+      </span>
+    </div>
+  </div>
+
+  {/* Card Content */}
+  <div className="p-6 flex flex-col flex-1 justify-between">
+    <div>
+      <div className="flex flex-wrap gap-1.5 mb-3">
+        {["OpenAI", "WhatsApp API", "Automation"].map((t) => (
+          <span
+            key={t}
+            className="text-[8px] font-mono uppercase tracking-widest text-primary bg-primary/5 px-2 py-0.5 rounded border border-primary/10 font-bold"
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+
+      <h3 className="text-base font-bold text-slate-900 mb-2 group-hover:text-primary transition-colors">
+        WhatsApp AI Agent for Software Agency
+      </h3>
+
+      <p className="text-xs text-slate-500 leading-relaxed font-light mb-4">
+        An intelligent WhatsApp assistant that automates client conversations,
+        qualifies leads, answers FAQs, books meetings, and captures project
+        requirements 24/7.
+      </p>
+    </div>
+
+    <div className="border-t border-slate-100 pt-4 mt-auto flex items-center justify-between">
+      <span className="text-[10px] text-slate-400 font-medium">
+        AI &amp; Automation
+      </span>
+
+      <span className="text-[10px] font-semibold text-slate-600 group-hover:text-primary transition-colors flex items-center gap-0.5">
+        AI Solution <ArrowUpRight className="w-3 h-3" />
+      </span>
+    </div>
+  </div>
+</motion.div>
+          {/* <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -127,7 +207,7 @@ export default function Projects() {
             <p className="text-xs text-slate-400 font-light max-w-[200px]">
               More enterprise custom systems and mobile apps currently being reviewed for permission parameters.
             </p>
-          </motion.div>
+          </motion.div> */}
 
           {/* Card 3: Placeholder Slot for Future Projects */}
           <motion.div

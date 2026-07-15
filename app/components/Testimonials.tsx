@@ -6,8 +6,6 @@ import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
 
 interface Testimonial {
   name: string;
-  role: string;
-  company: string;
   quote: string;
   stars: number;
   avatarColor: string;
@@ -16,31 +14,11 @@ interface Testimonial {
 
 const testimonials: Testimonial[] = [
   {
-    name: "Sarah Jenkins",
-    role: "Chief Technology Officer",
-    company: "CareGrid Health",
-    quote: "Devixo Solutions re-architected our legacy teleconsultation system into a blazing-fast, HIPAA-compliant platform. Their code quality is exceptional, and their team integrated seamlessly with our internal engineers.",
+    name: "Restaurant",
+    quote: "Devixo Solutions built a custom POS system that completely transformed our restaurant operations. The kitchen display system and offline capabilities are life-saving.",
     stars: 5,
     avatarColor: "from-rose-500 to-orange-500",
-    initials: "SJ",
-  },
-  {
-    name: "David Chen",
-    role: "Founding Engineer",
-    company: "Apex Trading",
-    quote: "The low-latency improvements Devixo implemented for our core trading engine were game-changing. We reached sub-millisecond execution thresholds and absolute reliability under peak load conditions.",
-    stars: 5,
-    avatarColor: "from-emerald-500 to-teal-500",
-    initials: "DC",
-  },
-  {
-    name: "Elena Rostova",
-    role: "Director of Infrastructure",
-    company: "Nebula Systems",
-    quote: "Migrating our microservice grid to AWS Kubernetes was highly successful under Devixo's coordination. They deployed advanced Terraform logic that reduced our hosting overhead by 34%.",
-    stars: 5,
-    avatarColor: "from-purple-500 to-indigo-500",
-    initials: "ER",
+    initials: "R",
   },
 ];
 
@@ -153,14 +131,14 @@ export default function Testimonials() {
               <div>
                 {/* Rating Stars */}
                 <div className="flex items-center gap-1 mb-6">
-                  {Array.from({ length: testimonials[index].stars }).map((_, i) => (
+                  {Array.from({ length: (testimonials[index] || testimonials[0]).stars }).map((_, i) => (
                     <Star key={i} className="w-5 h-5 text-amber-400 fill-amber-400" />
                   ))}
                 </div>
 
                 {/* Quote Text */}
                 <p className="text-lg sm:text-xl md:text-2xl text-slate-800 leading-relaxed font-light mb-8 italic">
-                  &ldquo;{testimonials[index].quote}&rdquo;
+                  &ldquo;{(testimonials[index] || testimonials[0]).quote}&rdquo;
                 </p>
               </div>
 
@@ -168,21 +146,15 @@ export default function Testimonials() {
               <div className="flex items-center gap-4 mt-4">
                 {/* Avatar with gradient */}
                 <div
-                  className={`w-14 h-14 rounded-full bg-gradient-to-tr ${testimonials[index].avatarColor} flex items-center justify-center font-bold text-white shadow-md text-lg select-none`}
+                  className={`w-14 h-14 rounded-full bg-gradient-to-tr ${(testimonials[index] || testimonials[0]).avatarColor} flex items-center justify-center font-bold text-white shadow-md text-lg select-none`}
                 >
-                  {testimonials[index].initials}
+                  {(testimonials[index] || testimonials[0]).initials}
                 </div>
 
                 <div>
                   <h4 className="text-base font-bold text-slate-900 leading-tight">
-                    {testimonials[index].name}
+                    {(testimonials[index] || testimonials[0]).name}
                   </h4>
-                  <p className="text-xs text-slate-500 mt-1 font-light">
-                    {testimonials[index].role} &bull;{" "}
-                    <span className="text-primary font-bold">
-                      {testimonials[index].company}
-                    </span>
-                  </p>
                 </div>
               </div>
             </motion.div>
