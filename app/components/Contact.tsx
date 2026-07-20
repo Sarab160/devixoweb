@@ -7,6 +7,7 @@ import { Mail, MapPin, Phone, Send, CheckCircle2, Loader2, MessageSquare } from 
 interface FormState {
   fullName: string;
   email: string;
+  whatsapp: string;
   projectType: string;
   message: string;
 }
@@ -15,6 +16,7 @@ export default function Contact() {
   const [formData, setFormData] = useState<FormState>({
     fullName: "",
     email: "",
+    whatsapp: "",
     projectType: "",
     message: "",
   });
@@ -51,6 +53,7 @@ export default function Contact() {
         body: JSON.stringify({
           name: formData.fullName,
           email: formData.email,
+          whatsapp: formData.whatsapp,
           subject: formData.projectType,
           message: formData.message
         }),
@@ -60,7 +63,7 @@ export default function Contact() {
 
       if (response.ok) {
         setSubmitSuccess(true);
-        setFormData({ fullName: "", email: "", projectType: "", message: "" });
+        setFormData({ fullName: "", email: "", whatsapp: "", projectType: "", message: "" });
 
         // Keep success message visible for 5 seconds
         setTimeout(() => {
@@ -271,38 +274,65 @@ export default function Contact() {
                   </div>
                 </div>
 
-                {/* Project Selection */}
-                <div className="relative">
-                  <select
-                    name="projectType"
-                    value={formData.projectType}
-                    onFocus={() => handleFocus("projectType")}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    className="w-full px-4 sm:px-5 py-4 text-sm text-slate-900 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary/45 focus:ring-1 focus:ring-primary/45 transition-all duration-300 font-sans appearance-none cursor-pointer"
-                    id="projectTypeSelect"
-                  >
-                    <option value="" disabled className="bg-white">Select Project Scope</option>
-                    <option value="Custom Software Dev" className="bg-white">Custom Software Dev</option>
-                    <option value="AI & LLM Integrations" className="bg-white">AI &amp; LLM Integrations</option>
-                    <option value="Cloud Architecture" className="bg-white">Cloud Architecture</option>
-                    <option value="Product UI/UX Design" className="bg-white">Product UI/UX Design</option>
-                    <option value="Mobile App Development" className="bg-white">Mobile App Development</option>
-                    <option value="E-commerce Solution" className="bg-white">E-commerce Solution</option>
-                    <option value="Other" className="bg-white">Other</option>
-                  </select>
-                  <label
-                    htmlFor="projectTypeSelect"
-                    className={`absolute left-4 sm:left-5 pointer-events-none transition-all duration-300 ${
-                      isLabelFloating("projectType")
-                        ? "top-0 -translate-y-1/2 text-[10px] font-bold text-primary px-2 bg-white tracking-widest uppercase"
-                        : "top-1/2 -translate-y-1/2 text-sm text-slate-400"
-                    }`}
-                  >
-                    Project Type
-                  </label>
-                  <div className="absolute right-4 sm:right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs font-mono">
-                    ▼
+                {/* WhatsApp Number + Project Selection — side by side on sm+ */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  {/* WhatsApp Number */}
+                  <div className="relative">
+                    <input
+                      type="tel"
+                      name="whatsapp"
+                      value={formData.whatsapp}
+                      onFocus={() => handleFocus("whatsapp")}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      className="w-full px-4 sm:px-5 py-4 text-sm text-slate-900 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary/45 focus:ring-1 focus:ring-primary/45 transition-all duration-300 font-sans"
+                      id="whatsappInput"
+                    />
+                    <label
+                      htmlFor="whatsappInput"
+                      className={`absolute left-4 sm:left-5 pointer-events-none transition-all duration-300 ${
+                        isLabelFloating("whatsapp")
+                          ? "top-0 -translate-y-1/2 text-[10px] font-bold text-primary px-2 bg-white tracking-widest uppercase"
+                          : "top-1/2 -translate-y-1/2 text-sm text-slate-400"
+                      }`}
+                    >
+                      WhatsApp Number
+                    </label>
+                  </div>
+
+                  {/* Project Selection */}
+                  <div className="relative">
+                    <select
+                      name="projectType"
+                      value={formData.projectType}
+                      onFocus={() => handleFocus("projectType")}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      className="w-full px-4 sm:px-5 py-4 text-sm text-slate-900 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-primary/45 focus:ring-1 focus:ring-primary/45 transition-all duration-300 font-sans appearance-none cursor-pointer"
+                      id="projectTypeSelect"
+                    >
+                      <option value="" disabled className="bg-white">Select Project Scope</option>
+                      <option value="Custom Software Dev" className="bg-white">Custom Software Dev</option>
+                      <option value="AI & LLM Integrations" className="bg-white">AI &amp; LLM Integrations</option>
+                      <option value="Cloud Architecture" className="bg-white">Cloud Architecture</option>
+                      <option value="Product UI/UX Design" className="bg-white">Product UI/UX Design</option>
+                      <option value="Mobile App Development" className="bg-white">Mobile App Development</option>
+                      <option value="E-commerce Solution" className="bg-white">E-commerce Solution</option>
+                      <option value="Other" className="bg-white">Other</option>
+                    </select>
+                    <label
+                      htmlFor="projectTypeSelect"
+                      className={`absolute left-4 sm:left-5 pointer-events-none transition-all duration-300 ${
+                        isLabelFloating("projectType")
+                          ? "top-0 -translate-y-1/2 text-[10px] font-bold text-primary px-2 bg-white tracking-widest uppercase"
+                          : "top-1/2 -translate-y-1/2 text-sm text-slate-400"
+                      }`}
+                    >
+                      Project Type
+                    </label>
+                    <div className="absolute right-4 sm:right-5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 text-xs font-mono">
+                      ▼
+                    </div>
                   </div>
                 </div>
 

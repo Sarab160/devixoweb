@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
   try {
     console.log("Request received for contact form.");
     const body = await request.json();
-    const { name, email, subject, message } = body;
+    const { name, email, whatsapp, subject, message } = body;
 
     // Validate all required fields
     if (!name || !email || !message) {
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       to: "devixot@gmail.com", // You can also change this to process.env.COMPANY_EMAIL if needed
       replyTo: email,
       subject: `New Contact Form Submission - Devixo Solutions`,
-      text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject || "N/A"}\n\nMessage:\n${message}`,
+      text: `Name: ${name}\nEmail: ${email}\nWhatsApp: ${whatsapp || "N/A"}\nSubject: ${subject || "N/A"}\n\nMessage:\n${message}`,
     };
 
     // 2. Automatic confirmation email to the user
